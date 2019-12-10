@@ -1,0 +1,213 @@
+{% load static %}
+
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>{% block title %}داشبورد{% endblock %}</title>
+
+    <link href="{% static 'dashboard/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'dashboard/css/plugins/bootstrap-rtl/bootstrap-rtl.min.css' %}" rel="stylesheet">
+    <link href="{% static 'dashboard/font-awesome/css/font-awesome.css' %}" rel="stylesheet">
+
+    <!-- <link href="{% static 'dashboard/css/plugins/datapicker/datepicker3.css' %}" rel="stylesheet"> -->
+    <link href="{% static 'dashboard/css/plugins/persian-datepicker/persian-datepicker.css' %}" rel="stylesheet">
+
+    <!-- Toastr style -->
+    <link href="{% static 'dashboard/css/plugins/toastr/toastr.min.css' %}" rel="stylesheet">
+
+    <!-- Gritter -->
+    <link href="{% static 'dashboard/js/plugins/gritter/jquery.gritter.css' %}" rel="stylesheet">
+
+    <!-- c3 Charts -->
+    <link href="{% static 'dashboard/css/plugins/c3/c3.min.css' %}" rel="stylesheet">
+
+    <link href="{% static 'dashboard/css/animate.css' %}" rel="stylesheet">
+    <link href="{% static 'dashboard/css/style.css' %}" rel="stylesheet">
+
+    <!-- Data Tables -->
+    <link href="{% static 'dashboard/css/plugins/dataTables/datatables.min.css' %}" rel="stylesheet">
+
+    <!-- iCheck -->
+    <link href="{% static 'dashboard/css/plugins/iCheck/custom.css' %}" rel="stylesheet">
+
+    <!-- Input Mask-->
+    <link href="{% static 'dashboard/css/plugins/jasny/jasny-bootstrap.min.css' %}">
+</head>
+
+<body class="rtls">
+    <div id="wrapper">
+        <nav class="navbar-default navbar-static-side" role="navigation">
+            <div class="sidebar-collapse">
+                <ul class="nav metismenu" id="side-menu">
+                    <li class="nav-header">
+                        <div class="dropdown profile-element">
+                            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                                <span class="clear">
+                                    <span>
+                                        <i class="fa fa-user-circle-o fa-5x"></i>
+                                    </span>
+                                    <span class="block m-t-xs">
+                                        <strong class="font-bold">کاربر : {{ user.get_full_name|default:user.username }}</strong>
+                                    </span>
+
+                                </span>
+                            </a>
+                        </div>
+                        <div class="logo-element">منو</div>
+                    </li>
+                    {% block menu %}
+                    <li class="active">
+                        <a href="{% url 'collector:requests_list' %}"><i class="fa fa-globe"></i> <span class="nav-label">داشبورد</span>&nbsp;<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li class="active"><a href="{% url 'collector:index' %}">داشبورد</a></li>
+                            <li class="active"><a href="{% url 'collector:requests_list' %}">همه درخواست ها</a></li>
+                            <li><a href="{% url 'collector:request_detail' %}">جزئیات درخواست</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="active">
+                        <a href="{% url 'collector:receivers_list' %}"><i class="fa fa-user-circle"></i> <span class="nav-label"> مدیریت پذیرنده ها </span></a>
+                    <ul class="nav nav-second-level">
+                                <li class="active"><a href="{% url 'collector:receivers_list' %}">همه پذیرنده ها</a></li>
+                                <li><a href="{% url 'collector:add_receiver' %}">ایجاد پذیرنده ها</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="/dashboard/mailbox/"><i class="fa fa-envelope"></i><span class="nav-label"> صندوق پیام </span>&nbsp;<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li><a href="/dashboard/mailbox/inbox">پیام های دریافتی</a></li>
+                            <li><a href="/dashboard/mailbox/sent">پیام های ارسالی</a></li>
+                            <li><a href="/dashboard/mailbox/trash">پیام های حذف شده</a></li>
+                            <li><a href="/dashboard/mailbox/compose">ارسال پیام</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="/dashboard/report/"><i class="fa fa-area-chart"></i><span class="nav-label"> گزارشات </span>&nbsp;<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li><a href="/dashboard/report/agreements">قرارداد ها</a></li>
+                            <li><a href="/dashboard/report/leakages"> نشت ها</a></li>
+                        </ul>
+                    </li>
+                    {% endblock %}
+                </ul>
+
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="gray-bg dashbard-1">
+        <div class="row border-bottom">
+        <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+        <div class="navbar-header">
+            <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
+            <form role="search" class="navbar-form-custom" action="search_results.html">
+                <div class="form-group">
+                    <input type="text" placeholder="جست و جو..." class="form-control" name="top-search" id="top-search">
+                </div>
+            </form>
+        </div>
+            <ul class="nav navbar-top-links navbar-right">
+                <li>
+                    <span class="m-r-sm text-muted welcome-message">خوش آمدید</span>
+                </li>
+
+                <li>
+                    <a href="/accounts/logout/">
+                        <i class="fa fa-sign-out"></i> خروج
+                    </a>
+                </li>
+            </ul>
+
+        </nav>
+        </div>
+
+        <div class="row wrapper border-bottom white-bg page-heading">
+            <div class="col-lg-10">
+                <h2>مسیر</h2>
+                <ol class="breadcrumb">
+                    <li>
+                        <a href="/dashboard">خانه</a>
+                    </li>
+                    {% block breadcrumb %}
+                    <li>
+                        <a>بخش</a>
+                    </li>
+                    <li class="active">
+                        <strong>زیربخش</strong>
+                    </li>
+                    {% endblock %}
+                </ol>
+            </div>
+            <div class="col-lg-2">
+
+            </div>
+        </div>
+        <!--<div class="row  border-bottom white-bg dashboard-header">-->
+            <!--<div class="col-md-3">-->
+                <!--<h2>داشبورد مدیریت</h2>-->
+            <!--</div>-->
+        <!--</div>-->
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="wrapper wrapper-content">
+                        <div class="row">
+                        {% block content %}
+                            <div class="col-md-12">
+                            </div>
+                        {% endblock %}
+                        </div>
+                </div>
+                <div class="footer">
+                    <div class="pull-right">
+                        <strong>Copyright</strong> Gereh Co. &copy; 2018
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        </div>
+    </div>
+
+    <!-- Mainly scripts -->
+    <script src="{% static 'dashboard/js/jquery-3.1.1.min.js' %}"></script>
+    <script src="{% static 'dashboard/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'dashboard/js/plugins/metisMenu/jquery.metisMenu.js' %}"></script>
+    <script src="{% static 'dashboard/js/plugins/slimscroll/jquery.slimscroll.min.js' %}"></script>
+
+    <!-- Custom and plugin javascript -->
+    <script src="{% static 'dashboard/js/inspinia.js' %}"></script>
+    <script src="{% static 'dashboard/js/plugins/pace/pace.min.js' %}"></script>
+
+    <!-- Date picker -->
+    <script src="{% static 'dashboard/js/plugins/persian-datepicker/persian-datepicker.js' %}"></script>
+
+    <!-- d3 and c3 charts -->
+    <script src="{% static 'dashboard/js/plugins/d3/d3.min.js' %}"></script>
+    <script src="{% static 'dashboard/js/plugins/c3/c3.min.js' %}"></script>
+
+    <!-- Data Tables -->
+    <script src="{% static 'dashboard/js/plugins/dataTables/datatables.min.js' %}"></script>
+
+    <!-- iCheck -->
+    <script src="{% static 'dashboard/js/plugins/iCheck/icheck.min.js' %}"></script>
+
+    <!-- Input Mask-->
+    <script src="{% static 'dashboard/js/plugins/jasny/jasny-bootstrap.min.js' %}"></script>
+
+    <script>
+        $(document).ready(function(){
+            $('.i-checks').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green',
+            });
+        });
+    </script>
+
+    {% block script %}<script></script>{% endblock %}
+</body>
+</html>

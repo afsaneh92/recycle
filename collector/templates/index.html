@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block content %}
+    <form method="post" action="">
+        {{ formset.management_form }}
+        <div>
+
+            {% for form in formset %}
+                {{form}}
+            {% endfor %}
+        </div>
+        <input class="btn btn-primary" href="/collector/receiver/{{ receiver.id }}/edit/" type="submit" value="save"/>
+    </form>
+
+   <div class="wrapper wrapper-content animated fadeInRight">
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>FooTable with row toggler, sorting and pagination</h5>
+
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    <i class="fa fa-wrench"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-user">
+                                    <li><a href="#">Config option 1</a>
+                                    </li>
+                                    <li><a href="#">Config option 2</a>
+                                    </li>
+                                </ul>
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ibox-content">
+
+                            <table class="footable table table-stripped toggle-arrow-tiny">
+                                <thead>
+
+                                <tr>
+
+                                    <th data-toggle="true">RequestID</th>
+                                    <th>Requester</th>
+                                    <th>Receiver</th>
+                                    <th>Status</th>
+                                    <th>TrashType</th>
+                                    <th data-hide="all">Address</th>
+
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% if recycle_request %}
+                                    {% for request in recycle_request %}
+                                    <tr>
+                                        <td>{{ request.id}}</td>
+                                        <td>{{ request.requester.fullname}}</td>
+                                        <td>{{ request.receiver.fullname}}</td>
+                                        <td>{{ request.status}}</td>
+                                        <td>{{ request.trash_type}}</td>
+                                        <td>{{ request.address}}</td>
+
+                                    {% endfor %}
+
+                                {% endif %}
+                                </tr>
+                                </tbody>
+
+                                <tfoot>
+                                <tr>
+                                    <td colspan="5">
+                                        <ul class="pagination pull-right"></ul>
+                                    </td>
+                                </tr>
+                                </tfoot>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+{% endblock %}
+

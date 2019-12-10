@@ -1,0 +1,20 @@
+{% extends "collector/base.html" %}
+
+{% block content %}
+
+
+    <hr>
+
+       <form action="" method="post">
+
+        {% csrf_token %}
+        <table>
+        {{ form }}
+        </table>
+           <a class="btn btn-primary" href="/collector/receiver/{{ receiver.id }}/edit/">Edit</a>
+           <a class="btn btn-primary" href="/collector/receiver/{{ receiver.id }}/delete/">Delete</a>
+    </form>
+
+
+
+{% endblock %}
